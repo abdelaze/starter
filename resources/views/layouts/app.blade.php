@@ -15,6 +15,7 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -38,7 +39,48 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
+
                         <!-- Authentication Links -->
+
+                        @auth
+                            <li class="dropdown dropdown-notification nav-item  dropdown-notifications">
+                                <a class="nav-link nav-link-label" href="#" data-toggle="dropdown">
+                                    <i class="fa fa-bell"> </i>
+                                    <span
+                                        class="badge badge-pill badge-default badge-danger badge-default badge-up badge-glow   notif-count"
+                                        data-count="9">9</span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
+                                    <li class="dropdown-menu-header">
+                                        <h6 class="dropdown-header m-0 text-center">
+                                            <span class="grey darken-2 text-center"> الرسائل</span>
+                                        </h6>
+                                    </li>
+                                    <li class="scrollable-container ps-container ps-active-y media-list w-100">
+                                        <a href="">
+                                            <div class="media">
+                                                <div class="media-body">
+                                                    <h6 class="media-heading text-right ">عنوان الاشعار </h6>
+                                                    <p class="notification-text font-small-3 text-muted text-right"> نص الاشعار</p>
+                                                    <small style="direction: ltr;">
+                                                        <p class=" text-muted text-right"
+                                                           style="direction: ltr;"> 20-05-2020 - 06:00 pm
+                                                        </p>
+                                                        <br>
+
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </a>
+
+                                    </li>
+                                    <li class="dropdown-menu-footer"><a class="dropdown-item text-muted text-center"
+                                                                        href=""> جميع الاشعارات </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endauth
+
                         @guest
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
@@ -49,6 +91,7 @@
                                 </li>
                             @endif
                         @else
+
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
@@ -76,5 +119,15 @@
             @yield('content')
         </main>
     </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="https://js.pusher.com/6.0/pusher.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('affda2b8567bcb9fe590', {
+            cluster: 'mt1'
+        });
+    </script>
 </body>
 </html>

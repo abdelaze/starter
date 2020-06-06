@@ -21,3 +21,7 @@ Route::get('/', function () {
 Auth::routes(['verify'=>true]);
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::post('/comment', 'HomeController@saveComment')->name('comment.save');
+// facebook login
+Route::get('login/{provider}','SocialController@redirectToProvider');
+Route::get('callback/{provider}','SocialController@Callback');
