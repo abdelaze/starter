@@ -13,10 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('/', function () {
 
-    return view('welcome');
-});
+       return view('welcome');
+ });
+
+
+
+
 
 Auth::routes(['verify'=>true]);
 
@@ -25,3 +30,21 @@ Route::post('/comment', 'HomeController@saveComment')->name('comment.save');
 // facebook login
 Route::get('login/{provider}','SocialController@redirectToProvider');
 Route::get('callback/{provider}','SocialController@Callback');
+
+
+
+Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]], function(){
+    Route::group(['prefix' => 'offers'],function() {
+
+        Route::get('create', 'OffersController@create');
+        Route::post('store', 'OffersController@store')->name('offers.store');
+        Route::get('all', 'OffersController@getallOffers')->name('offers.all');;
+        Route::get('edit/{offer_id}','OffersController@edit');
+        Route::post('update/{offer_id}', 'OffersController@update')->name('offers.update');
+        Route::get('delete/{offer_id}','OffersController@delete')->name('offers.delete');
+
+
+    });
+    Route::get('video','OffersController@getvideos');
+
+});
