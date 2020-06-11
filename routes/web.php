@@ -38,7 +38,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => [ 'l
 
         Route::get('create', 'OffersController@create');
         Route::post('store', 'OffersController@store')->name('offers.store');
-        Route::get('all', 'OffersController@getallOffers')->name('offers.all');;
+        Route::get('all', 'OffersController@getallOffers')->name('offers.all');
         Route::get('edit/{offer_id}','OffersController@edit');
         Route::post('update/{offer_id}', 'OffersController@update')->name('offers.update');
         Route::get('delete/{offer_id}','OffersController@delete')->name('offers.delete');
@@ -48,3 +48,17 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => [ 'l
     Route::get('video','OffersController@getvideos');
 
 });
+
+###################### Begin Ajax routes #####################
+Route::group(['prefix' => 'ajax-offers'],function() {
+
+    Route::get('create', 'Admin\AjaxofferController@create');
+    Route::post('store', 'Admin\AjaxofferController@store')->name('ajax.offers.store');
+    Route::post('delete','Admin\AjaxofferController@delete')->name('ajax.offers.delete');
+    Route::get('edit/{offer_id}','Admin\AjaxofferController@edit')->name('ajax.offers.edit');
+    Route::post('update', 'Admin\AjaxofferController@update')->name('ajax.offers.update');
+    Route::get('all', 'Admin\AjaxofferController@getallOffers')->name('ajax.offers.all');
+
+});
+
+###################### End Ajax routes #####################
