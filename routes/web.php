@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+define('PAGINATION_COUNT',2);
 
 Route::get('/', function () {
 
@@ -42,7 +43,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => [ 'l
         Route::get('edit/{offer_id}','OffersController@edit');
         Route::post('update/{offer_id}', 'OffersController@update')->name('offers.update');
         Route::get('delete/{offer_id}','OffersController@delete')->name('offers.delete');
-
+        Route::get('get-inactive-offers', 'OffersController@inActiveOffers');
 
     });
     Route::get('video','OffersController@getvideos');
@@ -62,3 +63,49 @@ Route::group(['prefix' => 'ajax-offers'],function() {
 });
 
 ###################### End Ajax routes #####################
+Route::get('/NotAdult',function (){
+   return 'You Are Less Than 15 Years Old';
+})->name('not.adult');
+###################### Begin middleware and guards #####################
+Route::group(['middleware'=>'CheckAge','namespace'=>'Auth'],function (){
+     Route::get('/adults','CustomAuthController@adults')->name('adults');
+
+});
+
+Route::group(['namespace'=>'Auth'],function () {
+    Route::get('/site', 'CustomAuthController@site')->name('site')->middleware('auth:web');
+    Route::get('/admin', 'CustomAuthController@admin')->name('admin')->middleware('auth:admin');
+    Route::get('admin/login', 'CustomAuthController@adminLogin')->name('admin.login');
+    Route::post('admin/save', 'CustomAuthController@checkAdminLogin')->name('save.admin.login');
+});
+
+###################### End middleware and guards  #####################
+
+
+####################### Start Relations ##############################
+
+Route::get('has-one','Relations\RelationsController@hasOneRelation');
+Route::get('get-user-with-phone','Relations\RelationsController@getUserHasPhone');
+Route::get('get-all-doctors','Relations\RelationsController@getAllDoctors');
+
+// get all hospitals and doctors
+Route::get('hospitals','Relations\RelationsController@hospitals')->name('hospitals.all');
+Route::get('doctors/{hospital_id}','Relations\RelationsController@doctors')->name('hospital.doctors');
+Route::get('delete/{hospital_id}','Relations\RelationsController@delete')->name('hospital.delete');
+
+//many to many relationships
+Route::get('doctor-services','Relations\RelationsController@getDoctorServices');
+Route::get('service-doctors','Relations\RelationsController@getServiceDoctors');
+Route::get('doctor/services/{doctor_id}','Relations\RelationsController@getDoctorServicesById')->name('doctor.services');
+Route::post('doctor-services-save','Relations\RelationsController@saveDoctorServices')->name('doctor.services.store');
+
+// has one through
+Route::get('has-one-through','Relations\RelationsController@getPatientDocotor');
+
+// has many through
+Route::get('has-many-through','Relations\RelationsController@getCountryDocotors');
+
+
+
+
+###################### End Relations #################################

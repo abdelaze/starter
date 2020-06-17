@@ -15,7 +15,7 @@ class Ajaxoffercontroller extends Controller
      public function create(){
           return view("ajaxoffers.create");
      }
-     public function store(Request $request) {
+     public function store(OfferRequest $request) {
 
          $file_name = $this->saveImage($request->photo,'images/offers');
         $offer = Offer::create([

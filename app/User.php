@@ -45,4 +45,10 @@ class User extends Authenticatable  implements MustVerifyEmail
         return $this ->  belongsTo('App\Comment','user_id','id');
     }
 
+    public function phone() {
+        return $this->hasOne('App\models\Phone','user_id');
+    }
+
+
+
 }

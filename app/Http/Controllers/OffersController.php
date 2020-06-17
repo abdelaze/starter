@@ -48,13 +48,19 @@ class OffersController extends Controller
 
     public function getallOffers()
     {
+//        $offers = Offer::select('id','photo',
+//            'price',
+//            'name_' . LaravelLocalization::getCurrentLocale() . ' as name',
+//            'details'
+//        )->get();
+
+        // return collection of all result*/
+
         $offers = Offer::select('id','photo',
             'price',
             'name_' . LaravelLocalization::getCurrentLocale() . ' as name',
             'details'
-        )->get();
-        // return collection of all result*/
-
+        )->paginate(PAGINATION_COUNT);
 
         return view('offers.all', compact('offers'));
 
@@ -98,6 +104,13 @@ public function delete($offer_id) {
          $video = Video::first();
          event(new VideoViewers($video));
          return view('youtube')->with('video' ,$video);
+   }
+   public function inActiveOffers() {
+        //use local scope
+       // return Offer::Inactive()->get();
+
+       // use global scope
+       return Offer::get();
    }
 
 //    protected  function getRules() {

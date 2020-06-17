@@ -150,11 +150,9 @@
 
     </tbody>
 
-
-
-
-
-
 </table>
+<div class="d-flex justify-content-center">
+ {!! $offers->links() !!}
+</div>
 </body>
 </html>

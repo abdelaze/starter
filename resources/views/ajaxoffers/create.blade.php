@@ -12,40 +12,32 @@
                     <div class="form-group">
                         <label>{{__('messages.image')}}</label>
                         <input type="file" name="photo" class="form-control"  placeholder="{{__('messages.photo')}}">
-                        @error('photo')
-                        <small class="form-text text-danger">{{$message}}</small>
-                        @enderror
+
+                        <small id="photo_error" class="form-text text-danger"></small>
+
                     </div>
 
                     <div class="form-group">
                         <label>{{__('messages.Offer Name en')}}</label>
                         <input type="text" name="name_en" class="form-control" value="{{old('name_en')}}" placeholder="{{__('messages.Offer Name en')}}">
-                        @error('name_en')
-                        <small class="form-text text-danger">{{$message}}</small>
-                        @enderror
+                        <small id="name_en_error" class="form-text text-danger"></small>
                     </div>
                     <div class="form-group">
                         <label>{{__('messages.Offer Name ar')}}</label>
                         <input type="text" name="name_ar" class="form-control" value="{{old('name_ar')}}" placeholder="{{__('messages.Offer Name ar')}}">
-                        @error('name_ar')
-                        <small class="form-text text-danger">{{$message}}</small>
-                        @enderror
+                        <small id="name_ar_error" class="form-text text-danger"></small>
                     </div>
 
                     <div class="form-group">
                         <label>{{__('messages.Offer Price')}}</label>
                         <input type="text" name="price" class="form-control" value="{{old('price')}}" placeholder="{{__('messages.Offer Price')}}">
-                        @error('price')
-                        <small class="form-text text-danger">{{$message}}</small>
-                        @enderror
+                        <small id="price_error" class="form-text text-danger"></small>
                     </div>
 
                     <div class="form-group">
                         <label>{{__('messages.Offer details')}}</label>
                         <input type="text" name="details" class="form-control" value="{{old('details')}}" placeholder="{{__('messages.Offer details')}}">
-                        @error('details')
-                        <small class="form-text text-danger">{{$message}}</small>
-                        @enderror
+                        <small id="details_error" class="form-text text-danger"></small>
                     </div>
 
 
@@ -60,12 +52,12 @@
 
          $(document).on('click','#save_offer',function (e){
              e.preventDefault();
-             // $('#photo_error').text('');
-             // $('#name_ar_error').text('');
-             // $('#name_en_error').text('');
-             // $('#price_error').text('');
-             // $('#details_ar_error').text('');
-             // $('#details_en_error').text('');
+             $('#photo_error').text('');
+             $('#name_en_error').text('');
+             $('#name_ar_error').text('');
+             $('#price_error').text('');
+             $('#details_error').text('');
+
              var formData = new FormData($('#offerForm')[0]);
              $.ajax({
                  type: 'post',
@@ -80,8 +72,11 @@
                           $('#success_msg').show();
                       }
                  }, error: function (reject) {
-
-
+                     
+                     var response = $.parseJSON(reject.responseText);
+                     $.each(response.errors, function (key, val) {
+                         $("#" + key + "_error").text(val[0]);
+                     });
                  }
              });
          });
